@@ -5,7 +5,7 @@ import uvicorn
 
 from app.core.config import settings
 from app.core.database import init_db
-from app.api.routes import newsletter, subscribers, campaigns
+from app.api.routes import newsletter, admin
 
 
 @asynccontextmanager
@@ -35,8 +35,7 @@ app.add_middleware(
 
 # API 라우터 등록
 app.include_router(newsletter.router, prefix="/api/v1/newsletters", tags=["newsletters"])
-app.include_router(subscribers.router, prefix="/api/v1/subscribers", tags=["subscribers"])
-app.include_router(campaigns.router, prefix="/api/v1/campaigns", tags=["campaigns"])
+app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
 
 
 @app.get("/")

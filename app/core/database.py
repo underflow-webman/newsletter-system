@@ -1,8 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
 from app.models.newsletter import Newsletter
-from app.models.subscriber import Subscriber
-from app.models.campaign import Campaign
+# 캠페인 기능 제거됨
 from app.core.config import settings
 import logging
 
@@ -27,7 +26,7 @@ async def init_db():
         # Beanie 초기화
         await init_beanie(
             database=db.database,
-            document_models=[Newsletter, Subscriber, Campaign]
+            document_models=[Newsletter]
         )
         
         logger.info("데이터베이스 연결이 성공적으로 초기화되었습니다.")

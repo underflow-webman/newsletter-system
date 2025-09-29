@@ -1,3 +1,3 @@
-from . import newsletter, subscribers, campaigns
+from . import newsletter, admin
 
-__all__ = ["newsletter", "subscribers", "campaigns"]
+__all__ = ["newsletter", "admin"]
