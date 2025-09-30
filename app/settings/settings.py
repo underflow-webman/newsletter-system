@@ -1,4 +1,4 @@
-"""애플리케이션 핵심 설정 - 모든 설정을 통합 관리합니다."""
+"""애플리케이션 통합 설정 - 모든 설정을 하나로 관리합니다."""
 
 from pydantic_settings import BaseSettings
 from typing import List
@@ -10,7 +10,7 @@ from app.infrastructure.config.crawling_config import crawling_config
 
 
 class Settings(BaseSettings):
-    """통합 설정 클래스 - 모든 설정을 하나로 관리합니다."""
+    """애플리케이션 통합 설정 클래스 - 모든 설정을 하나로 관리합니다."""
     
     # 애플리케이션 설정
     APP_NAME: str = app_config.APP_NAME

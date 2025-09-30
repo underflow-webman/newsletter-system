@@ -7,7 +7,7 @@ from typing import Dict, Any
 import asyncio
 import logging
 
-from app.core.config import settings
+from app.settings import settings
 from app.infrastructure.database.database import init_database
 from app.api.routes import router as api_router
 from app.modules.newsletter.use_cases import DailyNewsletterUseCase

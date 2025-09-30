@@ -5,7 +5,7 @@ from beanie import init_beanie
 from typing import Optional
 import logging
 
-from app.core.config import settings
+from app.settings import settings
 from app.infrastructure.database.models.crawling_models import CrawledPostDocument, CrawlSessionDocument
 from app.infrastructure.database.models.evaluation_models import EvaluationResultDocument, EvaluationSessionDocument
 from app.infrastructure.database.models.newsletter_models import NewsletterDocument, NewsletterItemDocument, SubscriberDocument

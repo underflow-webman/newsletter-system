@@ -3,7 +3,7 @@
 뉴스레터 시스템 실행 스크립트
 """
 import uvicorn
-from app.core.config import settings
+from app.settings import settings
 
 if __name__ == "__main__":
     uvicorn.run(
