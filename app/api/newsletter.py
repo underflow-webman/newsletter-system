@@ -4,9 +4,26 @@ from beanie import PydanticObjectId
 
 from app.models.newsletter import Newsletter, NewsletterCreate, NewsletterUpdate, NewsletterStatus
 from app.services.newsletter_service import NewsletterService
+from app.modules.newsletter.use_cases.daily_newsletter_use_case import DailyNewsletterUseCase
 
 router = APIRouter()
 newsletter_service = NewsletterService()
+
+
+@router.post("/daily")
+async def create_daily_newsletter(
+    daily_use_case: DailyNewsletterUseCase = Depends()
+):
+    """일일 뉴스레터를 생성하고 발송합니다."""
+    try:
+        result = await daily_use_case.execute()
+        return {
+            "success": True,
+            "message": "일일 뉴스레터가 성공적으로 생성되고 발송되었습니다.",
+            "data": result
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"뉴스레터 생성 실패: {str(e)}")
 
 
 @router.post("/", response_model=Newsletter)
