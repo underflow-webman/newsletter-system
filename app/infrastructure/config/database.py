@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
-from app.infrastructure.config.settings import settings
+from app.infrastructure.config import config
 from app.infrastructure.database.models import (
     NewsletterDocument,
     NewsletterItemDocument,
@@ -27,8 +27,8 @@ async def init_db():
     """데이터베이스 연결 초기화"""
     try:
         # MongoDB 클라이언트 생성
-        db.client = AsyncIOMotorClient(settings.MONGODB_URL)
-        db.database = db.client[settings.DATABASE_NAME]
+        db.client = AsyncIOMotorClient(config.database.MONGODB_URL)
+        db.database = db.client[config.database.DATABASE_NAME]
         
         # Beanie 초기화 - 모든 문서 모델 등록
         await init_beanie(

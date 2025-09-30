@@ -41,6 +41,35 @@ class CrawledPost:
 
 
 @dataclass
+class NewsArticle:
+    """뉴스 기사 - 뉴스 사이트에서 수집한 기사 정보."""
+    id: str                    # 기사 고유 ID
+    title: str                 # 제목
+    content: str               # 내용
+    url: str                   # 원본 URL
+    source: str                # 출처 사이트 (예: ET뉴스, 연합뉴스)
+    author: str                # 기자명
+    published_at: datetime     # 발행 시간
+    category: str              # 카테고리 (예: IT, 통신)
+    metadata: Dict[str, Any]   # 추가 메타데이터
+    crawled_at: datetime       # 크롤링 시간
+
+
+@dataclass
+class GovernmentDocument:
+    """정부 문서 - 정부 기관에서 발행한 공문서 정보."""
+    id: str                    # 문서 고유 ID
+    title: str                 # 제목
+    content: str               # 내용
+    url: str                   # 원본 URL
+    department: str            # 발행 부처
+    published_at: datetime     # 발행 시간
+    document_type: str         # 문서 유형 (예: 공지사항, 정책자료)
+    metadata: Dict[str, Any]   # 추가 메타데이터
+    crawled_at: datetime       # 크롤링 시간
+
+
+@dataclass
 class CrawlSession:
     """크롤링 세션 - 한 번의 크롤링 작업을 추적하는 객체."""
     id: str                    # 세션 고유 ID
