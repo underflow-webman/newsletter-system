@@ -1,4 +1,4 @@
-"""Yonhap crawler - 연합뉴스 크롤러."""
+"""연합뉴스 크롤러 - 연합뉴스에서 뉴스를 크롤링하는 클래스."""
 
 from __future__ import annotations
 

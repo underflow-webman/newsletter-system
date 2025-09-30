@@ -5,7 +5,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
 from datetime import datetime
-from app.domain.ports import IEmailSender
 
 
 class IEmailProvider(ABC):
@@ -89,7 +88,7 @@ class IEmailScheduler(ABC):
         pass
 
 
-class IAdvancedEmailService(IEmailSender, ABC):
+class IAdvancedEmailService(ABC):
     """Advanced email service with additional capabilities."""
     
     @abstractmethod

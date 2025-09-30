@@ -1,22 +1,21 @@
-"""Daou Office email service implementation."""
+"""다우오피스 이메일 서비스 구현."""
 
 from __future__ import annotations
 
 from typing import List, Dict, Any, Optional
-from app.domain.ports import IEmailSender
 from .base import BaseEmailService
 
 
 class DaouEmailSenderAdapter(BaseEmailService):
-    """Daou Office email service adapter."""
+    """다우오피스 이메일 서비스 어댑터."""
     
     def __init__(self, daou_service, config: Optional[Dict[str, Any]] = None):
         super().__init__("daou", config)
         self._daou_service = daou_service
     
-    # IEmailSender implementation
+    # IEmailSender 구현
     async def send(self, subject: str, html_body: str, recipients: List[Dict[str, str]]) -> Dict:
-        """Send email using Daou Office service."""
+        """다우오피스 서비스를 사용하여 이메일을 발송합니다."""
         return await self._daou_service.send_bulk_email(
             recipients=recipients,
             subject=subject,
@@ -24,14 +23,14 @@ class DaouEmailSenderAdapter(BaseEmailService):
             text_content="",
         )
     
-    # IEmailProvider implementation
+    # IEmailProvider 구현
     async def send_email(self, to: str, subject: str, body: str, **kwargs) -> Dict[str, Any]:
-        """Send single email using Daou Office."""
+        """다우오피스를 사용하여 단일 이메일을 발송합니다."""
         recipients = [{"email": to, "name": kwargs.get("name", "")}]
         return await self.send_bulk_email(recipients, subject, body, **kwargs)
     
     async def send_bulk_email(self, recipients: List[Dict[str, str]], subject: str, body: str, **kwargs) -> Dict[str, Any]:
-        """Send bulk emails using Daou Office."""
+        """다우오피스를 사용하여 대량 이메일을 발송합니다."""
         return await self._daou_service.send_bulk_email(
             recipients=recipients,
             subject=subject,
@@ -40,8 +39,8 @@ class DaouEmailSenderAdapter(BaseEmailService):
         )
     
     async def get_delivery_status(self, message_id: str) -> Dict[str, Any]:
-        """Get email delivery status from Daou Office."""
-        # Override with actual Daou Office API call
+        """다우오피스에서 이메일 배송 상태를 조회합니다."""
+        # 실제 다우오피스 API 호출로 오버라이드
         return {
             "message_id": message_id,
             "status": "delivered",

@@ -3,7 +3,7 @@
 from .entities import Newsletter, NewsletterItem, Subscriber
 from .repositories import NewsletterRepository, SubscriberRepository
 from .services import NewsletterService, TemplateService
-from .use_cases import CreateNewsletterUseCase, SendNewsletterUseCase
+from .use_cases import CreateNewsletterUseCase, SendNewsletterUseCase, DailyNewsletterUseCase
 
 __all__ = [
     # Entities
@@ -19,4 +19,5 @@ __all__ = [
     # Use Cases
     "CreateNewsletterUseCase",
     "SendNewsletterUseCase",
+    "DailyNewsletterUseCase",
 ]

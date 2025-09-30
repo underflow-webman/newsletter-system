@@ -1,14 +1,17 @@
-"""OpenAI LLM service implementation."""
+"""OpenAI LLM 서비스 구현."""
 
 from __future__ import annotations
 
 from typing import List, Dict, Any, Optional
-import openai
+try:
+    import openai
+except ImportError:
+    openai = None
 from .base import BaseLLMService
 
 
 class OpenAIService(BaseLLMService):
-    """OpenAI LLM service implementation."""
+    """OpenAI LLM 서비스 구현."""
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__("openai", config)
@@ -17,15 +20,15 @@ class OpenAIService(BaseLLMService):
         self.client = None
     
     async def _setup_provider(self) -> None:
-        """Setup OpenAI client."""
+        """OpenAI 클라이언트를 설정합니다."""
         if not self.api_key:
             raise ValueError("OpenAI API key is required")
         
         self.client = openai.AsyncOpenAI(api_key=self.api_key)
     
-    # ILLMProvider implementation
+    # ILLMProvider 구현
     async def generate_text(self, prompt: str, **kwargs) -> str:
-        """Generate text using OpenAI API."""
+        """OpenAI API를 사용하여 텍스트를 생성합니다."""
         if not self.client:
             await self.initialize()
         
@@ -38,16 +41,16 @@ class OpenAIService(BaseLLMService):
         return response.choices[0].message.content
     
     async def generate_structured(self, prompt: str, schema: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        """Generate structured data using OpenAI API."""
-        # Implementation for structured generation
-        # This would use function calling or JSON mode
+        """OpenAI API를 사용하여 구조화된 데이터를 생성합니다."""
+        # 구조화된 생성 구현
+        # 함수 호출 또는 JSON 모드를 사용
         response = await self.generate_text(prompt, **kwargs)
-        # Parse response based on schema
+        # 스키마에 따라 응답 파싱
         return {"generated": response}
     
-    # IContentAnalyzer implementation
+    # IContentAnalyzer 구현
     async def is_relevant(self, text: str, criteria: Optional[Dict[str, Any]] = None) -> bool:
-        """Check relevance using OpenAI."""
+        """OpenAI를 사용하여 관련성을 확인합니다."""
         criteria = criteria or self._get_default_criteria()
         keywords = criteria.get("keywords", [])
         
@@ -64,7 +67,7 @@ class OpenAIService(BaseLLMService):
         return "YES" in response.upper()
     
     async def classify_category(self, text: str, categories: Optional[List[str]] = None) -> str:
-        """Classify content using OpenAI."""
+        """OpenAI를 사용하여 콘텐츠를 분류합니다."""
         categories = categories or self._get_default_categories()
         
         prompt = f"""
@@ -80,7 +83,7 @@ class OpenAIService(BaseLLMService):
         return response.strip()
     
     async def summarize(self, text: str, sentences: int = 3, style: str = "neutral") -> str:
-        """Generate summary using OpenAI."""
+        """OpenAI를 사용하여 요약을 생성합니다."""
         prompt = f"""
         다음 텍스트를 {sentences}문장으로 요약해주세요.
         스타일: {style}

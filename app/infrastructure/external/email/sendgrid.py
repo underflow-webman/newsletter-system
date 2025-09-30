@@ -1,15 +1,22 @@
-"""SendGrid email service implementation."""
+"""SendGrid 이메일 서비스 구현."""
 
 from __future__ import annotations
 
 from typing import List, Dict, Any, Optional
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, Email, To, Content
+try:
+    from sendgrid import SendGridAPIClient
+    from sendgrid.helpers.mail import Mail, Email, To, Content
+except ImportError:
+    SendGridAPIClient = None
+    Mail = None
+    Email = None
+    To = None
+    Content = None
 from .base import BaseEmailService
 
 
 class SendGridEmailService(BaseEmailService):
-    """SendGrid email service implementation."""
+    """SendGrid 이메일 서비스 구현."""
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         super().__init__("sendgrid", config)
@@ -19,38 +26,38 @@ class SendGridEmailService(BaseEmailService):
         self._client = None
     
     async def _setup_provider(self) -> None:
-        """Setup SendGrid client."""
+        """SendGrid 클라이언트를 설정합니다."""
         if not self.api_key:
             raise ValueError("SendGrid API key is required")
         
         self._client = SendGridAPIClient(api_key=self.api_key)
     
     async def send_email(self, to: str, subject: str, body: str, **kwargs) -> Dict[str, Any]:
-        """Send single email via SendGrid."""
+        """SendGrid를 통해 단일 이메일을 발송합니다."""
         recipients = [{"email": to, "name": kwargs.get("name", "")}]
         return await self.send_bulk_email(recipients, subject, body, **kwargs)
     
     async def send_bulk_email(self, recipients: List[Dict[str, str]], subject: str, body: str, **kwargs) -> Dict[str, Any]:
-        """Send bulk emails via SendGrid."""
+        """SendGrid를 통해 대량 이메일을 발송합니다."""
         if not self._client:
             await self.initialize()
         
         try:
-            # Create message
+            # 메시지 생성
             from_email = Email(self.from_email, self.from_name)
             to_emails = [To(recipient["email"], recipient.get("name", "")) for recipient in recipients]
             
-            # Create content
+            # 콘텐츠 생성
             content = Content("text/html", body)
             
-            # Create mail object
+            # 메일 객체 생성
             mail = Mail(from_email, to_emails[0], subject, content)
             
-            # Add additional recipients
+            # 추가 수신자 추가
             for to_email in to_emails[1:]:
                 mail.add_to(to_email)
             
-            # Send email
+            # 이메일 발송
             response = self._client.send(mail)
             
             return {
@@ -68,12 +75,12 @@ class SendGridEmailService(BaseEmailService):
             }
     
     async def get_delivery_status(self, message_id: str) -> Dict[str, Any]:
-        """Get email delivery status from SendGrid."""
+        """SendGrid에서 이메일 배송 상태를 조회합니다."""
         if not self._client:
             await self.initialize()
         
         try:
-            # Use SendGrid Events API to get delivery status
+            # SendGrid Events API를 사용하여 배송 상태 조회
             response = self._client.client.messages.get(message_id)
             
             return {
